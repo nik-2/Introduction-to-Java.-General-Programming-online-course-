@@ -2,7 +2,6 @@ import java.io.*;
 import java.net.Socket;
 
 public class Client {
-
     private static Socket clientSocket; 
     private static BufferedReader reader; 
     private static BufferedReader in; 
