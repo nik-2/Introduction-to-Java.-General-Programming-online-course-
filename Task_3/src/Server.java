@@ -4,36 +4,27 @@ import java.net.Socket;
 
 public class Server {
 
-    private static Socket clientSocket; //сокет для общения
-    private static ServerSocket server; // серверсокет
-    private static BufferedReader in; // поток чтения из сокета
-    private static BufferedWriter out; // поток записи в сокет
+    private static Socket clientSocket; 
+    private static ServerSocket server; 
+    private static BufferedReader in;
+    private static BufferedWriter out;
 
     public static void main(String[] args) {
         try {
             try {
-                server = new ServerSocket(4004); // серверсокет прослушивает порт 4004
-                System.out.println("Сервер запущен!"); // хорошо бы серверу
-                //   объявить о своем запуске
-                clientSocket = server.accept(); // accept() будет ждать пока
-                //кто-нибудь не захочет подключиться
-                try { // установив связь и воссоздав сокет для общения с клиентом можно перейти
-                    // к созданию потоков ввода/вывода.
-                    // теперь мы можем принимать сообщения
-                    in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    // и отправлять
+                server = new ServerSocket(4004); 
+                System.out.println("Сервер запущен!");           
+                clientSocket = server.accept();               
+                try {                  
+                    in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));               
                     out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-
-                    String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
-                    System.out.println(word);
-                    // не долго думая отвечает клиенту
+                    String word = in.readLine(); 
+                    System.out.println(word);                   
                     out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
-                    out.flush(); // выталкиваем все из буфера
-
-                } finally { // в любом случае сокет будет закрыт
+                    out.flush(); 
+                } finally {
                     System.out.println("Клиент сокет закрыт");
-                    clientSocket.close();
-                    // потоки тоже хорошо бы закрыть
+                    clientSocket.close();               
                     in.close();
                     out.close();
                 }
